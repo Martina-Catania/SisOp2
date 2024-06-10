@@ -14,10 +14,10 @@ int main(int argc, char *argv[]) {
 		est.deserialize(recibo->getSdu());
 		cout<<nom<<" recibe al querer entrar "<<est<<endl;
 		if (primera){
-			est.llegaEscritor();
+			est.llegaModificador();
 			primera=false;
 		}
-		if (est.puedeEntrarEscritor()) break;
+		if (est.puedeEntrarModificador()) break;
 		envio.setHdr(recibo->getHdr());
 		envio.setSdu(est.serialize());
 		repo.send(envio);
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 		//cout<<nom<<" sigue. ("<<cont++<<")"<<endl;
 
 		}
-	est.entraEscritor();
+	est.entraModificador();
 	envio.setHdr(recibo->getHdr());
 	envio.setSdu(est.serialize());
 	repo.send(envio);
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	recibo=repo.receive();
 	est.deserialize(recibo->getSdu());
 	cout<<nom<<" recibe al irse "<<est<<endl;
-	est.saleEscritor();
+	est.saleModificador();
 	envio.setHdr(recibo->getHdr());
 	envio.setSdu(est.serialize());
 	repo.send(envio);

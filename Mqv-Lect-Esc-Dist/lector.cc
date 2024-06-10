@@ -13,17 +13,17 @@ int main(int argc, char *argv[]) {
 		est.deserialize(recibo->getSdu());
 		cout<<nom<<" recibe al querer entrar "<<est<<endl;
 		if (primera){
-			est.llegaLector();
+			est.llegaSupervisor();
 			primera=false;
 		}
-		if (est.puedeEntrarLector()) break;
+		if (est.puedeEntrarSupervisor()) break;
 		envio.setHdr(recibo->getHdr());
 		envio.setSdu(est.serialize());
 		repo.send(envio);
 		delete (recibo);
 		sleep(4);
 		}
-	est.entraLector();
+	est.entraSupervisor();
 	envio.setHdr(recibo->getHdr());
 	envio.setSdu(est.serialize());
 	repo.send(envio);
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 	recibo=repo.receive();
 	est.deserialize(recibo->getSdu());
 	cout<<nom<<" recibe al irse "<<est<<endl;
-	est.saleLector();
+	est.saleSupervisor();
 	envio.setHdr(recibo->getHdr());
 	envio.setSdu(est.serialize());
 	repo.send(envio);

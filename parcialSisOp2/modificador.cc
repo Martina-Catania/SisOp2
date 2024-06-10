@@ -4,7 +4,7 @@ modificador = escritor en patrón lector-escritor distribuido
  > solo puede entrar cuando no hay supervisores en el tablero del instrumento
 */
 int main(int argc, char *argv[]) {
-	string nom="Escritor-"+to_string(getpid());
+	string nom="Modificador-"+to_string(getpid());
 	sv_mq repo("repo");
 	mpdu *recibo, envio;
 	estado est;
@@ -17,10 +17,10 @@ int main(int argc, char *argv[]) {
 		est.deserialize(recibo->getSdu());
 		cout<<nom<<" recibe al querer entrar "<<est<<endl;
 		if (primera){
-			est.llegaEscritor();
+			est.llegaModificador();
 			primera=false;
 		}
-		if (est.puedeEntrarEscritor()) break;
+		if (est.puedeEntrarModificador()) break;
 		envio.setHdr(recibo->getHdr());
 		envio.setSdu(est.serialize());
 		repo.send(envio);
@@ -30,19 +30,19 @@ int main(int argc, char *argv[]) {
 		//cout<<nom<<" sigue. ("<<cont++<<")"<<endl;
 
 		}
-	est.entraEscritor();
+	est.entraModificador();
 	envio.setHdr(recibo->getHdr());
 	envio.setSdu(est.serialize());
 	repo.send(envio);
 
-	cout<<nom<<" Escribiendo ..."<<endl;
+	cout<<nom<<" Modicicando "<<endl;
 	cin>>st;
 	cout<<nom<<" Sale "<<endl;
 	delete (recibo);
 	recibo=repo.receive();
 	est.deserialize(recibo->getSdu());
 	cout<<nom<<" recibe al irse "<<est<<endl;
-	est.saleEscritor();
+	est.saleModificador();
 	envio.setHdr(recibo->getHdr());
 	envio.setSdu(est.serialize());
 	repo.send(envio);

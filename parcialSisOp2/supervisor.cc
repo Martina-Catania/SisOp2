@@ -3,7 +3,7 @@
 supervisor = lector en patrón lector escritor distribuido
 */
 int main(int argc, char *argv[]) {
-	string nom="Lector-"+to_string(getpid());
+	string nom="Supervisor-"+to_string(getpid());
 	sv_mq repo("repo");
 	mpdu *recibo, envio;
 	estado est;
@@ -15,29 +15,29 @@ int main(int argc, char *argv[]) {
 		est.deserialize(recibo->getSdu());
 		cout<<nom<<" recibe al querer entrar "<<est<<endl;
 		if (primera){
-			est.llegaLector();
+			est.llegaSupervisor();
 			primera=false;
 		}
-		if (est.puedeEntrarLector()) break;
+		if (est.puedeEntrarSupervisor()) break;
 		envio.setHdr(recibo->getHdr());
 		envio.setSdu(est.serialize());
 		repo.send(envio);
 		delete (recibo);
 		sleep(4);
 		}
-	est.entraLector();
+	est.entraSupervisor();
 	envio.setHdr(recibo->getHdr());
 	envio.setSdu(est.serialize());
 	repo.send(envio);
 
-	cout<<nom<<" Leyendo ..."<<endl;
+	cout<<nom<<" Supervisando "<<endl;
 	cin>>st;
 	cout<<nom<<" Sale "<<endl;
 	delete (recibo);
 	recibo=repo.receive();
 	est.deserialize(recibo->getSdu());
 	cout<<nom<<" recibe al irse "<<est<<endl;
-	est.saleLector();
+	est.saleSupervisor();
 	envio.setHdr(recibo->getHdr());
 	envio.setSdu(est.serialize());
 	repo.send(envio);
