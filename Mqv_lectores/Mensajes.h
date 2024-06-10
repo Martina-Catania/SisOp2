@@ -1,0 +1,7 @@
+#define Lector_Quiere_Entrar "LQE"
+#define Lector_Entra "LE"
+#define Lector_Sale "LS"
+#define Escritor_Quiere_Entrar "EQE"
+#define Escritor_Entra "EE"
+#define Escritor_Sale "ES"
+#define Termina "Fin"
